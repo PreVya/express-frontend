@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo - Add Entry</title>
+  <style>
+    /* General styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Card container */
+    .card {
+      background: #fff;
+      padding: 32px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      margin-bottom: 24px;
+      color: #102a43;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 16px;
+      transition: border-color 0.2s ease;
+    }
+    input:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: #3b82f6;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+
+    #result {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #334155;
+      min-height: 20px;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Add Name + Task</h2>
+    <form id="todoForm">
+      <input name="name" placeholder="Name" required />
+      <input name="task" placeholder="Task" required />
+      <button type="submit">Add</button>
+    </form>
+    <pre id="result"></pre>
+  </div>
+
+  <script>
+    const form = document.getElementById('todoForm');
+    const out = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        name: form.name.value.trim(),
+        task: form.task.value.trim()
+      };
+
+      out.textContent = 'Saving...';
+
+      try {
+        const res = await fetch('/submit', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (res.ok) {
+          out.textContent = 'Saved ✅ — id: ' + (json.id || JSON.stringify(json));
+          form.reset();
+        } else {
+          out.textContent = 'Error ❌: ' + JSON.stringify(json);
+        }
+      } catch (err) {
+        out.textContent = 'Network error ❌: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo - Add Entry</title>
+  <style>
+    body { font-family: system-ui, Arial; margin: 32px; }
+    input, button { padding: 8px; margin: 4px; }
+  </style>
+</head>
+<body>
+  <h2>Add Name + Task</h2>
+  <form id="todoForm">
+    <input name="name" placeholder="Name" required />
+    <input name="task" placeholder="Task" required />
+    <button type="submit">Add</button>
+  </form>
+
+  <pre id="result" style="margin-top:12px"></pre>
+
+  <script>
+    const form = document.getElementById('todoForm');
+    const out = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: form.name.value.trim(),
+        task: form.task.value.trim()
+      };
+
+      out.textContent = 'Saving...';
+
+      try {
+        const res = await fetch('/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (res.ok) {
+          out.textContent = 'Saved ✅ — id: ' + (json.id || JSON.stringify(json));
+          form.reset();
+        } else {
+          out.textContent = 'Error ❌: ' + JSON.stringify(json);
+        }
+      } catch (err) {
+        out.textContent = 'Network error ❌: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html> -->
