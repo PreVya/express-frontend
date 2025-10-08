@@ -6,7 +6,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 // Backend URL from env var, default to local Flask dev
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.BACKEND_URL || '';
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
