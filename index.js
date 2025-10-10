@@ -36,7 +36,7 @@ app.post("/submit", async (req, res) => {
 });
 
 // Serve frontend index.html for any non-API route
-app.get("*", (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
