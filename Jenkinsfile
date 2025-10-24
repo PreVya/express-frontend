@@ -4,13 +4,13 @@ pipeline {
     environment {
         CONTAINER_NAME = 'express-frontend'
         IMAGE_NAME = 'express-frontend'
-        BACKEND_URL = credentials('BACKEND_URL')  // Backend API URL
+        BACKEND_URL = credentials('BACKEND_URL')
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/PreVya/express-frontend-repo.git'
+                git branch: 'main', url: 'https://github.com/PreVya/express-frontend.git'
             }
         }
 
